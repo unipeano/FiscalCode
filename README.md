@@ -1,6 +1,6 @@
 # Italian Fiscal Code Calculator 🇮🇹
 
-A modern, minimal web application to calculate Italian fiscal codes (*Codice Fiscale*).
+This is one of my first projects developed using Python and, notably, with the assistance of Claude. It served as a way to test both the language itself and the capabilities of AI collaboration tools. The motivation behind it is personal: I still haven't memorized my Italian Fiscal Code, so I figured it would be better to learn its logic through code rather than just rote memorization.
 
 ## Features
 
@@ -10,7 +10,7 @@ A modern, minimal web application to calculate Italian fiscal codes (*Codice Fis
 ✓ Responsive interface  
 ✓ Fast and lightweight  
 
-## What is Codice Fiscale?
+## What is the Italian Fiscal Code?
 
 The Italian fiscal code is a 16-character alphanumeric code used to uniquely identify citizens for tax and administrative purposes. It's been in use since 1973.
 

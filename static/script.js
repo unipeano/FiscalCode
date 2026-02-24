@@ -87,11 +87,10 @@ function copyToClipboard() {
     const code = document.getElementById('fiscalCode').textContent;
     
     navigator.clipboard.writeText(code).then(() => {
-        const btn = event.target;
+        const btn = document.querySelector('.btn-copy');
         const originalText = btn.textContent;
         
         btn.textContent = '✓ Copied!';
-        btn.style.color = '#27ae60';
         
         setTimeout(() => {
             btn.textContent = originalText;

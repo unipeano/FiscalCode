@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiscal Code Calculator - Codice Fiscale</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">Codice Fiscale</h1>
+            <p class="subtitle">Calculate your Italian Fiscal Code</p>
+        </header>
+
+        <main class="main">
+            <form id="fiscalForm" class="form">
+                <div class="form-group">
+                    <label for="surname">Surname (Cognome)</label>
+                    <input type="text" id="surname" name="surname" required placeholder="Rossi">
+                </div>
+
+                <div class="form-group">
+                    <label for="name">First Name (Nome)</label>
+                    <input type="text" id="name" name="name" required placeholder="Mario">
+                </div>
+
+                <div class="form-group">
+                    <label for="birthDate">Date of Birth (DD/MM/YYYY)</label>
+                    <input type="text" id="birthDate" name="birthDate" required placeholder="01/01/1980">
+                </div>
+
+                <div class="form-group">
+                    <label for="gender">Gender</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="gender" value="M" checked>
+                            <span>Male</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="gender" value="F">
+                            <span>Female</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="municipality">Municipality Code</label>
+                    <input type="text" id="municipality" name="municipality" required placeholder="A123" maxlength="4">
+                </div>
+
+                <button type="submit" class="btn-generate">Generate Fiscal Code</button>
+            </form>
+
+            <div id="result" class="result hidden">
+                <div class="fiscal-code-display">
+                    <p class="label">Your Fiscal Code:</p>
+                    <p id="fiscalCode" class="code">RSSMRA80A01H501C</p>
+                    <button type="button" class="btn-copy" onclick="copyToClipboard()">📋 Copy</button>
+                </div>
+
+                <div class="breakdown">
+                    <h3>Code Breakdown</h3>
+                    <div class="breakdown-grid">
+                        <div class="breakdown-item">
+                            <span class="label">Surname</span>
+                            <span id="bd-surname" class="value">RSS</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="label">Name</span>
+                            <span id="bd-name" class="value">MRA</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="label">Year</span>
+                            <span id="bd-year" class="value">80</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="label">Month</span>
+                            <span id="bd-month" class="value">A</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="label">Day</span>
+                            <span id="bd-day" class="value">01</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="label">Municipality</span>
+                            <span id="bd-municipality" class="value">H501</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span class="label">Check Digit</span>
+                            <span id="bd-checkDigit" class="value">C</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" class="btn-new" onclick="resetForm()">← New Calculation</button>
+            </div>
+
+            <div id="error" class="error hidden"></div>
+        </main>
+
+        <footer class="footer">
+            <p>Italian Fiscal Code Calculator • <a href="https://github.com" target="_blank">GitHub</a></p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

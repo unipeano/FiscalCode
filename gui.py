@@ -14,8 +14,8 @@ class FiscalCodeGUI:
     
     def __init__(self, root):
         self.root = root
-        self.root.title("Fiscal Code Calculator")
-        self.root.geometry("500x600")
+        self.root.title("Italian Fiscal Code Calculator")
+        self.root.geometry("700x750")
         self.root.resizable(False, False)
         
         # Configure style
@@ -60,7 +60,7 @@ class FiscalCodeGUI:
         # Title
         title = ttk.Label(
             self.main_frame,
-            text="Codice Fiscale",
+            text="Italian Fiscal Code Calculator",
             style='Title.TLabel'
         )
         title.grid(row=0, column=0, pady=(0, 5), sticky=tk.W)
@@ -111,12 +111,21 @@ class FiscalCodeGUI:
         # Generate Button
         button_frame = ttk.Frame(self.main_frame)
         button_frame.grid(row=row, column=0, sticky=(tk.W, tk.E), pady=15)
+        button_frame.columnconfigure(0, weight=1)
+        button_frame.columnconfigure(1, weight=1)
+        
         ttk.Button(
             button_frame,
             text="Generate Fiscal Code",
             command=self.generate_code,
             style='Accent.TButton'
-        ).pack(fill=tk.BOTH, expand=True)
+        ).grid(row=0, column=0, sticky=(tk.W, tk.E), padx=(0, 5))
+        
+        ttk.Button(
+            button_frame,
+            text="Reset",
+            command=self.reset_form
+        ).grid(row=0, column=1, sticky=(tk.W, tk.E), padx=(5, 0))
         row += 1
         
         # Result Frame
@@ -124,14 +133,27 @@ class FiscalCodeGUI:
         self.result_frame.grid(row=row, column=0, sticky=(tk.W, tk.E), pady=(10, 0), padx=0)
         self.result_frame.columnconfigure(0, weight=1)
         
-        # Fiscal Code Display
+        # Fiscal Code Display with Copy Button
+        code_frame = ttk.Frame(self.result_frame)
+        code_frame.grid(row=0, column=0, sticky=(tk.W, tk.E), pady=(0, 15))
+        code_frame.columnconfigure(0, weight=1)
+        
         self.fiscal_code_label = ttk.Label(
-            self.result_frame,
+            code_frame,
             text="",
             font=('Courier New', 16, 'bold'),
             foreground="#27ae60"
         )
-        self.fiscal_code_label.grid(row=0, column=0, pady=(0, 15), sticky=tk.W)
+        self.fiscal_code_label.grid(row=0, column=0, sticky=tk.W)
+        
+        self.copy_button = ttk.Button(
+            code_frame,
+            text="Copy",
+            command=self.copy_to_clipboard,
+            width=10
+        )
+        self.copy_button.grid(row=0, column=1, sticky=tk.E, padx=(10, 0))
+        self.copy_button.config(state=tk.DISABLED)
         
         # Breakdown
         self.breakdown_text = tk.Text(
@@ -145,12 +167,12 @@ class FiscalCodeGUI:
             highlightthickness=1,
             highlightcolor='#bdc3c7'
         )
-        self.breakdown_text.grid(row=1, column=0, sticky=(tk.W, tk.E, tk.N, tk.S), padx=0)
+        self.breakdown_text.grid(row=2, column=0, columnspan=2, sticky=(tk.W, tk.E, tk.N, tk.S), padx=0)
         self.breakdown_text.config(state=tk.DISABLED)
         
         # Add scrollbar
         scrollbar = ttk.Scrollbar(self.result_frame, orient=tk.VERTICAL, command=self.breakdown_text.yview)
-        scrollbar.grid(row=1, column=1, sticky=(tk.N, tk.S), padx=(5, 0))
+        scrollbar.grid(row=2, column=2, sticky=(tk.N, tk.S), padx=(5, 0))
         self.breakdown_text.config(yscrollcommand=scrollbar.set)
     
     def generate_code(self):
@@ -190,6 +212,7 @@ class FiscalCodeGUI:
             
             # Display result
             self.fiscal_code_label.config(text=f"✓ {fiscal_code}")
+            self.copy_button.config(state=tk.NORMAL)
             
             # Display breakdown
             breakdown = (
@@ -209,6 +232,33 @@ class FiscalCodeGUI:
             
         except Exception as e:
             messagebox.showerror("Error", f"An error occurred: {str(e)}")
+    
+    def copy_to_clipboard(self):
+        """Copy the fiscal code to clipboard."""
+        code_text = self.fiscal_code_label.cget("text").replace("✓ ", "").strip()
+        if code_text:
+            self.root.clipboard_clear()
+            self.root.clipboard_append(code_text)
+            self.root.update()
+            messagebox.showinfo("Success", f"Copied to clipboard: {code_text}")
+    
+    def reset_form(self):
+        """Reset the form to clear all inputs and results."""
+        # Clear input fields
+        self.surname_var.set("")
+        self.name_var.set("")
+        self.date_var.set("")
+        self.gender_var.set("M")
+        self.municipality_var.set("")
+        
+        # Clear result display
+        self.fiscal_code_label.config(text="")
+        self.copy_button.config(state=tk.DISABLED)
+        
+        # Clear breakdown
+        self.breakdown_text.config(state=tk.NORMAL)
+        self.breakdown_text.delete(1.0, tk.END)
+        self.breakdown_text.config(state=tk.DISABLED)
 
 
 def main():

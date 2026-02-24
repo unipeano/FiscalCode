@@ -41,3 +41,4 @@ instance/
 .env
 .env.local
 *.log
+gui.spec
